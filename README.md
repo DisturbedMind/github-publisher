@@ -82,6 +82,22 @@ https://www.python.org/downloads/windows/
 
 When installing Python, enable **Add python.exe to PATH**.
 
+## Logo
+
+The wolf logo at the top of this README must exist in the repository at:
+
+```text
+assets/wolf-banner.png
+```
+
+If the logo is missing on GitHub, copy your wolf image to that exact path, then commit and push it:
+
+```powershell
+git add README.md assets/wolf-banner.png
+git commit -m "Add wolf logo to README"
+git push
+```
+
 ## Run From Source
 
 From the project folder:
@@ -226,6 +242,7 @@ That is intentional. The goal is to keep publishing safer for beginners.
 - `github_publisher_gui.py` - main GUI application
 - `launch_github_publisher.bat` - simple Windows launcher
 - `build_exe.bat` - PyInstaller EXE builder
+- `install_wolf_logo.bat` - copies your wolf image to the README logo path
 - `assets/wolf-banner.png` - wolf logo shown at the top of this README
 - `README.md` - GitHub project README
 - `README_GitHub_Publisher.md` - longer local beginner guide
