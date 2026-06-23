@@ -142,6 +142,21 @@ class GitHubPublisher(tk.Tk):
             row=2, column=1, sticky="ew", pady=5
         )
 
+        auth_tools = ttk.Frame(setup_box)
+        auth_tools.grid(row=3, column=0, columnspan=2, sticky="ew", pady=(10, 0))
+        ttk.Button(
+            auth_tools,
+            text="GitHub Login",
+            style="Soft.TButton",
+            command=self.github_login,
+        ).pack(side="left")
+        ttk.Button(
+            auth_tools,
+            text="Check Login",
+            style="Soft.TButton",
+            command=self.check_github_login,
+        ).pack(side="left", padx=(8, 0))
+
         changes_box = ttk.LabelFrame(container, text="Changed Files", style="Card.TLabelframe", padding=10)
         changes_box.grid(row=1, column=0, sticky="nsew", padx=(0, 12))
         changes_box.rowconfigure(0, weight=1)
@@ -256,12 +271,12 @@ class GitHubPublisher(tk.Tk):
             return None
         return path
 
-    def run_git(self, args: list[str], cwd: Path | None) -> GitResult:
+    def run_command(self, args: list[str], cwd: Path | None = None) -> GitResult:
         try:
             env = os.environ.copy()
             env.setdefault("GIT_EDITOR", "true")
             completed = subprocess.run(
-                ["git", *args],
+                args,
                 cwd=str(cwd) if cwd else None,
                 env=env,
                 text=True,
@@ -270,9 +285,12 @@ class GitHubPublisher(tk.Tk):
                 shell=False,
             )
         except FileNotFoundError:
-            return GitResult(False, "Git was not found on PATH.")
+            return GitResult(False, f"{args[0]} was not found on PATH.")
         output = "\n".join(part for part in [completed.stdout, completed.stderr] if part).strip()
         return GitResult(completed.returncode == 0, output)
+
+    def run_git(self, args: list[str], cwd: Path | None) -> GitResult:
+        return self.run_command(["git", *args], cwd)
 
     def run_git_logged(self, args: list[str], cwd: Path) -> GitResult:
         self.append_log(f"\n$ git {' '.join(args)}")
@@ -306,6 +324,38 @@ class GitHubPublisher(tk.Tk):
 
         self.busy = True
         threading.Thread(target=worker, daemon=True).start()
+
+    def enqueue_command(self, title: str, steps: list[list[str]], refresh_after: bool = False) -> None:
+        if self.busy:
+            messagebox.showinfo(APP_TITLE, "A command is already running.")
+            return
+
+        def worker() -> None:
+            self.command_queue.put(("state", title))
+            ok = True
+            for step in steps:
+                self.command_queue.put(("log", f"\n$ {' '.join(step)}"))
+                result = self.run_command(step)
+                if result.output:
+                    self.command_queue.put(("log", result.output))
+                if not result.ok:
+                    ok = False
+                    break
+            self.command_queue.put(("state", "Ready" if ok else "Stopped after an error"))
+            if refresh_after:
+                self.command_queue.put(("refresh", ""))
+
+        self.busy = True
+        threading.Thread(target=worker, daemon=True).start()
+
+    def github_login(self) -> None:
+        self.enqueue_command(
+            "Logging into GitHub...",
+            [["gh", "auth", "login", "--web", "--git-protocol", "https"]],
+        )
+
+    def check_github_login(self) -> None:
+        self.enqueue_command("Checking GitHub login...", [["gh", "auth", "status"]])
 
     def guidance_for_error(self, output: str) -> str:
         lowered = output.lower()

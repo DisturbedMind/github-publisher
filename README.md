@@ -20,7 +20,7 @@ It uses a local Tkinter interface with the same wolf-branded look as **YouTube M
 
 - Windows
 - Git installed and available on `PATH`
-- A GitHub account signed in through Git Credential Manager or another Git credential flow
+- GitHub CLI (`gh`) installed and available on `PATH` if you want to use the in-app **GitHub Login** button
 - Python 3.10+ only if you want to run from source instead of the bundled EXE
 
 ## Quick Start
@@ -63,6 +63,8 @@ dist\GitHubPublisher.exe
 
 ## Features
 
+- Sign in with GitHub from the app through GitHub CLI
+- Check the current GitHub login status
 - Browse for a local project folder or paste a path manually
 - Inspect branch, remote, and changed files
 - Initialize Git in a selected folder
@@ -77,7 +79,7 @@ dist\GitHubPublisher.exe
 
 ## Notes
 
-- The app never stores GitHub tokens.
+- The app never stores GitHub tokens; GitHub CLI handles authentication.
 - Commands run only inside the project path you enter.
 - If the project is not a Git repo yet, choose the folder and click **1. Initialize Git**.
 - If GitHub rejects your push because the remote already has a README, license, or `.gitignore`, click **3. Pull from GitHub**. If Git says the histories are unrelated, click **Fix A. First Upload Pull** once.
