@@ -1,6 +1,10 @@
-
-# Local generated folders
+# Python cache
 __pycache__/
+*.pyc
+*.pyo
+
+# Local build/cache folders
+build/
 work/
 outputs/
 .codex-git-backups/
@@ -8,11 +12,10 @@ outputs/
 # Local backup files
 README.backup-*.md
 
-# Python cache
-*.pyc
-*.pyo
 # Old local web prototype leftovers
 app.py
 static/
 github-publisher-gui-web.zip
+
+# Local binary backups
 dist/*.bak

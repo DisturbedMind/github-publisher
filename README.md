@@ -12,9 +12,54 @@
 
 # GitHub Publisher GUI
 
-A local Tkinter desktop app for publishing existing project folders to GitHub.
+A small Windows desktop app for publishing existing project folders to GitHub.
 
-The app keeps the same look and feel as **YouTube Music Playlist Downloader**: dark wolf-branded header, light card panels, soft action buttons, and a dark command log. It runs local `git` commands only when you click an action.
+It uses a local Tkinter interface with the same wolf-branded look as **YouTube Music Playlist Downloader**. Commands run only when you click an action, and every Git result is shown in the command log.
+
+## What You Need
+
+- Windows
+- Git installed and available on `PATH`
+- A GitHub account signed in through Git Credential Manager or another Git credential flow
+- Python 3.10+ only if you want to run from source instead of the bundled EXE
+
+## Quick Start
+
+Download or clone this repository, then run:
+
+```text
+dist\GitHubPublisher.exe
+```
+
+If Windows SmartScreen warns about an unknown publisher, choose **More info** and **Run anyway** only if you downloaded it from the repository you trust.
+
+## Run From Source
+
+Clone the repo into any folder you like:
+
+```powershell
+git clone https://github.com/DisturbedMind/GitHub-Publisher.git
+cd GitHub-Publisher
+python .\github_publisher_gui.py
+```
+
+Or, from inside the cloned folder:
+
+```powershell
+.\run.ps1
+```
+
+## Build The EXE
+
+```powershell
+.\build_exe.bat
+```
+
+The rebuilt app is written to:
+
+```text
+dist\GitHubPublisher.exe
+```
 
 ## Features
 
@@ -30,41 +75,10 @@ The app keeps the same look and feel as **YouTube Music Playlist Downloader**: d
 - Push to the selected remote and branch
 - Keep an on-screen action log of every command result
 
-## Requirements
-
-- Windows with Python 3.10+
-- Git installed and available on `PATH`
-- A GitHub account authenticated through Git Credential Manager or another Git credential flow
-
-## Run From Source
-
-```powershell
-cd C:\Codex\Projects\GitHub-Publisher-GUI
-python .\github_publisher_gui.py
-```
-
-You can also use:
-
-```powershell
-.\run.ps1
-```
-
-## Build The EXE
-
-```powershell
-.\build_exe.bat
-```
-
-The generated app is written to:
-
-```text
-dist\GitHubPublisher.exe
-```
-
 ## Notes
 
 - The app never stores GitHub tokens.
 - Commands run only inside the project path you enter.
 - If the project is not a Git repo yet, choose the folder and click **1. Initialize Git**.
-- If GitHub rejects your push because the remote has a README, license, or `.gitignore`, click **3. Pull from GitHub**. If Git says the histories are unrelated, click **Fix A. First Upload Pull** once.
+- If GitHub rejects your push because the remote already has a README, license, or `.gitignore`, click **3. Pull from GitHub**. If Git says the histories are unrelated, click **Fix A. First Upload Pull** once.
 - If Git reports conflicts, click **Fix B. Show Conflicts**, edit the listed files, remove every `<<<<<<<`, `=======`, and `>>>>>>>` marker, save, then click **Fix C. Continue After Fix**.
