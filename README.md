@@ -1,4 +1,13 @@
 <p align="center">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white">
+  <img alt="GUI" src="https://img.shields.io/badge/GUI-local%20web-0f766e">
+  <img alt="Git" src="https://img.shields.io/badge/Git-supported-F05032?logo=git&logoColor=white">
+  <img alt="GitHub CLI" src="https://img.shields.io/badge/GitHub%20CLI-gh-181717?logo=github&logoColor=white">
+  <img alt="License" src="https://img.shields.io/badge/License-MIT-blue">
+  <img alt="Platform" src="https://img.shields.io/badge/Platform-Windows-0078D4?logo=windows&logoColor=white">
+</p>
+
+<p align="center">
   <img src="assets/wolf-banner.png" alt="Wolf logo" width="720">
 </p>
 
